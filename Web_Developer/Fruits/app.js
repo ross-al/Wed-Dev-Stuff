@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 
+//to hide passwords
 require("dotenv").config();
 const password = process.env.MONGODB_PASSWORD;
 
