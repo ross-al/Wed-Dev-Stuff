@@ -15,19 +15,20 @@ async function run() {
 
     collection.insertMany([
         {
-            name: "apple",
+            name: "banana",
             color: "green"
         },
         {
-            name: "lime"
+            name: "lemon"
         },
         {
-            name: "grape"
+            name: "kiwi"
         }
     ])
 
 
     console.log(collection);
+
   } finally {
     // Ensures that the client will close when you finish/error
     await client.close();
