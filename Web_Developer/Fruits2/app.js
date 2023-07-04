@@ -35,7 +35,7 @@ const People = mongoose.model('People', peopleSchema);
 const john = new People({name: 'John', age: 47});
 john.save()
 
-console.log(People.find());
+//console.log(People.find());
 
 
 const john2 = new People({name: 'John2', age: 47});
@@ -54,8 +54,34 @@ const defaultItems = [john2, john3, john4]
 
 People.insertMany(defaultItems)
       .then(function () {
-        console.log("Successfully saved defult items to DB");
+        console.log("Successfully saved default items to DB");
       })
       .catch(function (err) {
         console.log(err);
       });
+
+ // callbacks no longer supported...  
+
+// People.find({},function(err, peoples){
+//     if(err){
+//         console.log(err);
+//     } else {
+//         peoples.forEach(function(person){
+//             console.log(person.name);
+//         })
+//     }
+// });
+
+// Retrieving and printing people names
+People.find({name: 'John2'})
+  .then(function(people) {
+    mongoose.connection.close();
+    people.forEach(function(person) {
+      console.log(person.name);
+    });
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+
+  
