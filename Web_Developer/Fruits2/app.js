@@ -27,8 +27,14 @@ mongoose.connect('mongodb://127.0.0.1:27017/kittens');
 //people 
 
 const peopleSchema = new mongoose.Schema({
-    name: String,
-    age: Number
+    name: {
+        type: String, 
+        required: [true, 'Enter Name']
+        },
+    age: {
+        type: Number,
+        min: 0
+    }
 });
 
 const People = mongoose.model('People', peopleSchema);
@@ -41,8 +47,10 @@ john.save()
 const john2 = new People({name: 'John2', age: 47});
 const john3 = new People({name: 'John3', age: 47});
 const john4 = new People({name: 'John4', age: 47});
+const john5 = new People({name: 'John5', age: 1});
+const john6 = new People({name: 'John6', age: 23});
 
-const defaultItems = [john2, john3, john4]
+const defaultItems = [john2, john3, john4, john5, john6]
 
 // People.insertMany([john2, john3, john4], function(err){
 //     if(err){
@@ -72,16 +80,30 @@ People.insertMany(defaultItems)
 //     }
 // });
 
+
+//update age test
+
+People.updateMany({name: 'John6'}, {age: 24 })
+      .catch(function(err) {
+        console.log(err);
+ });
+
+ //wont delete everything as runs concurrently? 
+
+ People.deleteMany({name: 'John3'})
+    .catch(function(err){
+        console.log(err)
+ });
+
 // Retrieving and printing people names
-People.find({name: 'John2'})
+People.find({})
   .then(function(people) {
     mongoose.connection.close();
     people.forEach(function(person) {
-      console.log(person.name);
+      console.log(person.name + ": " + person.age);
     });
   })
   .catch(function(err) {
     console.log(err);
   });
 
-  
