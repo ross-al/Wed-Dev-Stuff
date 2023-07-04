@@ -3,22 +3,59 @@ const mongoose = require('mongoose');
 //local db only
 mongoose.connect('mongodb://127.0.0.1:27017/kittens');
 
-const kittySchema = new mongoose.Schema({
-    name: String
-  });
 
-const Kitten = mongoose.model('Kitten', kittySchema);
+//kittens
 
-const silence = new Kitten({ name: 'Silence' });
-silence.save()
-console.log(silence.name); // 'Silence'
+// const kittySchema = new mongoose.Schema({
+//     name: String
+//   });
 
-const noise = new Kitten({ name: 'Noise' });
-noise.save()
-console.log(noise.name); 
+// const Kitten = mongoose.model('Kitten', kittySchema);
+
+// const silence = new Kitten({ name: 'Silence' });
+// silence.save()
+// console.log(silence.name); // 'Silence'
+
+// const noise = new Kitten({ name: 'Noise' });
+// noise.save()
+// console.log(noise.name); 
 
 
-const kittens = Kitten.find();
-console.log(kittens);
+// const kittens = Kitten.find();
+// console.log(kittens);
+
+//people 
+
+const peopleSchema = new mongoose.Schema({
+    name: String,
+    age: Number
+});
+
+const People = mongoose.model('People', peopleSchema);
+const john = new People({name: 'John', age: 47});
+john.save()
+
+console.log(People.find());
 
 
+const john2 = new People({name: 'John2', age: 47});
+const john3 = new People({name: 'John3', age: 47});
+const john4 = new People({name: 'John4', age: 47});
+
+const defaultItems = [john2, john3, john4]
+
+// People.insertMany([john2, john3, john4], function(err){
+//     if(err){
+//         console.log(err + ": error found")
+//         return;
+//     }
+//     console.log("saved successfully")
+// })
+
+People.insertMany(defaultItems)
+      .then(function () {
+        console.log("Successfully saved defult items to DB");
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
