@@ -6,15 +6,15 @@ mongoose.connect('mongodb://127.0.0.1:27017/kittens');
 
 //kittens
 
-// const kittySchema = new mongoose.Schema({
-//     name: String
-//   });
+const kittySchema = new mongoose.Schema({
+     name: String
+   });
 
-// const Kitten = mongoose.model('Kitten', kittySchema);
+const Kitten = mongoose.model('Kitten', kittySchema);
 
-// const silence = new Kitten({ name: 'Silence' });
-// silence.save()
-// console.log(silence.name); // 'Silence'
+const silence = new Kitten({ name: 'Silence' });
+silence.save()
+console.log(silence.name); // 'Silence'
 
 // const noise = new Kitten({ name: 'Noise' });
 // noise.save()
@@ -34,8 +34,9 @@ const peopleSchema = new mongoose.Schema({
     age: {
         type: Number,
         min: 0
-    }
-});
+    }, 
+    favouriteKitten: kittySchema
+})
 
 const People = mongoose.model('People', peopleSchema);
 const john = new People({name: 'John', age: 47});
@@ -44,13 +45,14 @@ john.save()
 //console.log(People.find());
 
 
-const john2 = new People({name: 'John2', age: 47});
-const john3 = new People({name: 'John3', age: 47});
-const john4 = new People({name: 'John4', age: 47});
-const john5 = new People({name: 'John5', age: 1});
-const john6 = new People({name: 'John6', age: 23});
+// const john2 = new People({name: 'John2', age: 47});
+// const john3 = new People({name: 'John3', age: 47});
+// const john4 = new People({name: 'John4', age: 47});
 
-const defaultItems = [john2, john3, john4, john5, john6]
+const jake = new People({name: 'Jake', age: 1});
+const jessy = new People({name: 'Jessy', age: 23});
+
+const defaultItems = [jake, jessy]
 
 // People.insertMany([john2, john3, john4], function(err){
 //     if(err){
@@ -83,10 +85,15 @@ People.insertMany(defaultItems)
 
 //update age test
 
-People.updateMany({name: 'John6'}, {age: 24 })
+People.updateMany({name: 'Jake'}, {age: 24 })
       .catch(function(err) {
         console.log(err);
  });
+
+ People.updateOne({name:'Jake'}, {favouriteKitten: silence})
+       .catch(function(err){
+            console.log(err)
+ })
 
  //wont delete everything as runs concurrently? 
 
