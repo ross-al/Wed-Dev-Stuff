@@ -12,7 +12,19 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect('mongodb://127.0.0.1:27017/todolistDB');
+//to connect to local host
+//mongoose.connect('mongodb://127.0.0.1:27017/todolistDB');
+
+// to connect to server
+
+//to hide passwords
+require("dotenv").config();
+const password = process.env.MONGODB_PASSWORD;
+
+// Replace the uri string with your connection string.
+const database = "mongodb+srv://Cluster17314:"+password+"@cluster17314.dse6u8f.mongodb.net/?retryWrites=true&w=majority";
+
+ mongoose.connect(database);
 
 const itemSchema = new mongoose.Schema({
   name: {
@@ -56,16 +68,21 @@ Item.find({})
 
 app.post("/", function(req, res){
 
-  const item = req.body.newItem;
-
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
+  const itemName = req.body.newItem;
+  const item = new Item({name: itemName});
+  item.save();
+  
 });
+
+//   if (req.body.list === "Work") 
+//     workItems.push(item);
+//     res.redirect("/work");
+//   } else {
+//     items.push(item);
+//     res.redirect("/");
+//   }
+// 
+// });
 
 app.get("/work", function(req,res){
   res.render("list", {listTitle: "Work List", newListItems: workItems});
