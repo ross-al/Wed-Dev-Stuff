@@ -15,7 +15,7 @@ app.use(express.static("public"));
 //to connect to local host
 //mongoose.connect('mongodb://127.0.0.1:27017/todolistDB');
 
-// to connect to server
+// to connect to server on mongodb
 
 //to hide passwords
 require("dotenv").config();
